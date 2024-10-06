@@ -6,7 +6,7 @@ const getVerifiersAPI = async () => {
     const response = await apiClient.get(API_ENDPOINT);
     return response;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Create Verifier failed');
+    throw new Error(error.response?.data?.message || 'get Verifier failed');
   }
 }
 export default getVerifiersAPI

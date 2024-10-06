@@ -131,7 +131,7 @@ export default function AdminLayout() {
     { text: 'Loans', icon: <AccountBalanceIcon />, onClick: () => navigate('/admin/loans') },
     { text: 'Create Verifiers', icon: <DynamicFormIcon />, onClick: () => navigate('/admin/createVerifier') },
     { text: 'View Verifiers', icon: <ConnectWithoutContactIcon />, onClick: () => navigate('/admin/viewVerifier') },
-    { text: 'Settings', icon: <SettingsIcon />, onClick: () => navigate('/admin/settings') },
+    { text: 'Settings', icon: <SettingsIcon />, onClick: () => navigate('/login') },
   ];
   const currentPath = location.pathname;
   const index = pathToIndex[currentPath];
@@ -152,6 +152,9 @@ export default function AdminLayout() {
               <MenuIcon />
             </IconButton>
           </Box>
+          <Typography variant="h5" noWrap component="div" sx={{ flexGrow: 1, color: '#0A512F', fontWeight: 'bold' }} className='font-bold'>
+            ADMIN PANEL
+          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton color="inherit">
               <NotificationsIcon />

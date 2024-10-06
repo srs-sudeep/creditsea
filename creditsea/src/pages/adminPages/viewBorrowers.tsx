@@ -12,21 +12,21 @@ import {
 } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getVerifiersAPI } from '../../api';
+import { getUsersAPI } from '../../api'; // Import your API function
 
-const ViewVerifiers: React.FC = () => {
-  const [verifiers, setVerifiers] = useState<any[]>([]);
+const ViewBorrower: React.FC = () => {
+  const [borrower, setBorrower] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchVerifiers = async () => {
       try {
-        const response = await getVerifiersAPI();
-        setVerifiers(response.data);
+        const response = await getUsersAPI();
+        setBorrower(response.data);
       } catch (err) {
-        setError('Failed to fetch verifiers');
-        toast.error('Failed to fetch verifiers');
+        setError('Failed to fetch users');
+        toast.error('Failed to fetch users');
       } finally {
         setLoading(false);
       }
@@ -54,7 +54,7 @@ const ViewVerifiers: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {verifiers.map((verifier) => (
+              {borrower.map((verifier) => (
                 <TableRow key={verifier.id}>
                   <TableCell>{verifier.name}</TableCell>
                   <TableCell>{verifier.email}</TableCell>
@@ -71,4 +71,4 @@ const ViewVerifiers: React.FC = () => {
   );
 };
 
-export default ViewVerifiers;
+export default ViewBorrower;

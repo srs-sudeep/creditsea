@@ -7,10 +7,13 @@ import PrivateRoute from './core/PrivateRoute';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import UserPage from './pages/userPages/userDashboard';
-import VerifierPage from './pages/verifierPages/verifier';
-import AdminPage from './pages/adminPages/adminDashboard';
+import VerifierDashboard from './pages/verifierPages/verifierDashboard';
+import AdminDashboard from './pages/adminPages/adminDashboard';
 import CreateVerifier from './pages/adminPages/createVerifier';
 import ViewVerifiers from './pages/adminPages/viewVerifier';
+import ViewBorrower from './pages/adminPages/viewBorrowers';
+import AdminLoans from './pages/adminPages/viewLoans';
+import VerifierLoans from './pages/verifierPages/viewLoans';
 const App = () => {
   return (
     <Router>
@@ -29,15 +32,18 @@ const App = () => {
               <VerifierLayout />
             </PrivateRoute>}>
               <Route index element={<Navigate to="/verifier/dashboard" />} />
-              <Route path='dashboard' element={<VerifierPage />} />
+              <Route path='dashboard' element={<VerifierDashboard />} />
+              <Route path='loans' element={<VerifierLoans />} />
             </Route>
             <Route path="/admin" element={<PrivateRoute>
               <AdminLayout />
             </PrivateRoute>}>
               <Route index element={<Navigate to="/admin/dashboard" />} />
-              <Route path='dashboard' element={<AdminPage />} />
+              <Route path='dashboard' element={<AdminDashboard />} />
               <Route path='createVerifier' element={<CreateVerifier />} />
               <Route path='viewVerifier' element={<ViewVerifiers />} />
+              <Route path='loans' element={<AdminLoans />} />
+              <Route path='borrowers' element={<ViewBorrower />} />
             </Route>
         </Routes>
       </AuthProvider>

@@ -9,24 +9,31 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip
+  Chip,
+  Tabs,
+  Tab,
+  Box,
+  Typography,
+  InputAdornment
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LoanModal from '../../components/LoanModal';
 import { getLoanAPI } from '../../api';
+
 interface Loan {
   id: string;
   loanOfficer: string;
   amount: number;
   dateApplied: string;
   status: 'pending' | 'approved' | 'rejected' | 'verified';
-
   assignedVerifier?: {
     email: string;
     name: string;
     phone: string;
     _id: string;
   };
-
   createdAt: string;
   creditInfoDisclosure: boolean;
   employmentAddress1: string;
@@ -42,15 +49,37 @@ interface Loan {
   _id: string;
 }
 
+const StyledTab = styled(Tab)(({ theme }) => ({
+  textTransform: 'none',
+  minWidth: 0,
+  [theme.breakpoints.up('sm')]: {
+    minWidth: 0,
+  },
+  fontWeight: theme.typography.fontWeightRegular,
+  marginRight: theme.spacing(1),
+  color: 'rgba(0, 0, 0, 0.85)',
+  '&:hover': {
+    color: '#40a9ff',
+    opacity: 1,
+  },
+  '&.Mui-selected': {
+    color: '#1890ff',
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  '&.Mui-focusVisible': {
+    backgroundColor: '#d1eaff',
+  },
+}));
 
 const HomePage: React.FC = () => {
   const [loans, setLoans] = useState<Loan[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     const fetchLoans = async () => {
       const response = await getLoanAPI();
-      console.log(response.data)
+      console.log(response.data);
       setLoans(response.data);
     };
     fetchLoans();
@@ -60,29 +89,43 @@ const HomePage: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  return (
-    <div className="container p-4 mx-auto">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-sm text-gray-500">DEPOSIT</p>
-          <h2 className="text-2xl font-bold">₦0.0</h2>
-        </div>
-        <Button variant="contained" color="primary" onClick={handleApplyLoan}>
-          Get A Loan
-        </Button>
-      </div>
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
 
-      <div className="flex mb-4">
-        <Button variant="outlined" className="mr-2">Borrow Cash</Button>
-        <Button variant="outlined" className="mr-2">Transact</Button>
-        <Button variant="outlined">Deposit Cash</Button>
-      </div>
+  return (
+    <div className="container mx-auto">
+      <Box sx={{ bgcolor: '#f0f0f0', p: 2, mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <AttachMoneyIcon sx={{ fontSize: 40, color: 'green', mr: 1 }} />
+            <Typography variant="h4" component="span" sx={{ fontWeight: 'bold' }}>
+              0.0
+            </Typography>
+          </Box>
+          <Button variant="contained" color="primary" onClick={handleApplyLoan}>
+            Get A Loan
+          </Button>
+        </Box>
+        <Tabs value={tabValue} onChange={handleTabChange} aria-label="loan options">
+          <StyledTab label="Borrow Cash" />
+          <StyledTab label="Transact" />
+          <StyledTab label="Deposit Cash" />
+        </Tabs>
+      </Box>
 
       <TextField
         fullWidth
         variant="outlined"
         placeholder="Search for loans"
-        className="mb-4"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+        sx={{ mb: 2 }}
       />
 
       <TableContainer component={Paper}>
@@ -99,9 +142,9 @@ const HomePage: React.FC = () => {
             {loans.map((loan) => (
               <TableRow key={loan.id}>
                 <TableCell component="th" scope="row">
-                  {loan.assignedVerifier.name}
+                  {loan.assignedVerifier?.name}
                 </TableCell>
-                <TableCell align="right">{loan.amount.toLocaleString('en-NG', { style: 'currency', currency: 'INR' })}</TableCell>
+                <TableCell align="right">{loan.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</TableCell>
                 <TableCell align="right">
                   {new Date(loan.createdAt).toLocaleDateString('en-US')}
                 </TableCell>
@@ -110,9 +153,9 @@ const HomePage: React.FC = () => {
                     label={loan.status}
                     color={
                       loan.status === 'approved' ? 'success' :
-                        loan.status === 'pending' ? 'warning' :
-                          loan.status === 'verified' ? 'info' :
-                            'error'
+                      loan.status === 'pending' ? 'warning' :
+                      loan.status === 'verified' ? 'info' :
+                      'error'
                     }
                   />
                 </TableCell>

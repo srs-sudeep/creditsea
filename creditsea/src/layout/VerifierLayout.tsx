@@ -84,7 +84,6 @@ export default function AdminLayout() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const handleLogout = async () => {
     try {
-      console.log("hello");
       await logoutAPi();
       navigate('/login');
     } catch (error) {
@@ -118,24 +117,18 @@ export default function AdminLayout() {
     setAnchorEl(null);
   };
   const pathToIndex = {
-    '/admin/dashboard': 0,
-    '/admin/borrowers': 1,
-    '/admin/loans': 2,
-    '/admin/createVerifier': 3,
-    '/admin/viewVerifier': 4,
-    '/admin/settings':5,
+    '/verifier/dashboard': 0,
+    '/verifier/loans': 1,
+    '/verifier/settings':2,
   };
   const menuItems = [
-    { text: 'Dashboard', icon: <DashboardIcon />, onClick: () => navigate('/admin/dashboard') },
-    { text: 'Borrowers', icon: <PeopleIcon />, onClick: () => navigate('/admin/borrowers') },
-    { text: 'Loans', icon: <AccountBalanceIcon />, onClick: () => navigate('/admin/loans') },
-    { text: 'Create Verifiers', icon: <DynamicFormIcon />, onClick: () => navigate('/admin/createVerifier') },
-    { text: 'View Verifiers', icon: <ConnectWithoutContactIcon />, onClick: () => navigate('/admin/viewVerifier') },
-    { text: 'Settings', icon: <SettingsIcon />, onClick: () => navigate('/admin/settings') },
+    { text: 'Verifier Dashboard', icon: <DashboardIcon />, onClick: () => navigate('/verifier/dashboard') },
+    { text: 'Loans', icon: <AccountBalanceIcon />, onClick: () => navigate('/verifier/loans') },
+    { text: 'Settings', icon: <SettingsIcon />, onClick: () => navigate('/verifier/dashboard') },
   ];
   const currentPath = location.pathname;
   const index = pathToIndex[currentPath];
-  const title = index !== undefined ? menuItems[index].text : 'Admin Dashboard';
+  const title = index !== undefined ? menuItems[index].text : 'Verifier Dashboard';
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -152,6 +145,9 @@ export default function AdminLayout() {
               <MenuIcon />
             </IconButton>
           </Box>
+          <Typography variant="h5" noWrap component="div" sx={{ flexGrow: 1, color: '#0A512F', fontWeight: 'bold' }} className='font-bold'>
+            VERIFIER PANEL
+          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <IconButton color="inherit">
               <NotificationsIcon />
@@ -167,7 +163,7 @@ export default function AdminLayout() {
               onClick={handleMenu}
               color="inherit"
             >
-              <Avatar>A</Avatar>
+              <Avatar>V</Avatar>
             </IconButton>
             <Menu
               id="menu-appbar"
