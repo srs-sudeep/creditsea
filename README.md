@@ -9,7 +9,11 @@ The frontend is built using **Vite + React + TypeScript**, while the backend use
 ---
 
 ## Demo Video
-https://github.com/user-attachments/assets/85453f77-bf64-44b3-8bab-565c806520fe
+
+
+
+https://github.com/user-attachments/assets/39e13546-bfe6-4982-901b-a612f618c6b4
+
 
 
 ## Roles and Permissions
